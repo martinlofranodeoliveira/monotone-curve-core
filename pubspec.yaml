@@ -1,0 +1,12 @@
+name: monotone_curve_core
+version: 0.1.0
+description: Bounded monotone cubic interpolation, analytic integration, and plateau-aware inverse brackets.
+homepage: https://lofranotecnologia.com.br
+repository: https://github.com/martinlofranodeoliveira/monotone-curve-core
+issue_tracker: https://github.com/martinlofranodeoliveira/monotone-curve-core/issues
+license: MIT
+# Author: Lofrano Tecnologia
+environment:
+  sdk: '>=3.13.0 <4.0.0'
+dev_dependencies:
+  test: 1.33.0

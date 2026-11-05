@@ -1,0 +1,32 @@
+name: CI
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    container:
+      image: dart:stable@sha256:517cbeb4612c4dff11c983edea521d5aef3f47a674c23684fad5e89803ca5b1c
+    env:
+      PUB_CACHE: ${{ github.workspace }}/build/pub-cache
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Record SDK
+        run: dart --version
+      - name: Prepare the committed dependency lock and package cache
+        run: |
+          test -f pubspec.lock
+          dart pub get --enforce-lockfile
+      - name: Check offline dependency resolution
+        run: dart pub get --offline --enforce-lockfile
+      - name: Analyze
+        run: dart analyze --fatal-infos
+      - name: Test
+        run: dart test
+      - name: Deterministic offline demos
+        run: |
+          dart run bin/monotone_curve.dart demo --assert
+          dart run bin/monotone_curve.dart demo --assert --json
